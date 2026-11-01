@@ -1,0 +1,26 @@
+/* Staff Brand Library page (served at /track/brand/<token>) */
+html, body, #root { height: auto !important; min-height: 100%; overflow: visible !important; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font); -webkit-font-smoothing: antialiased; }
+.bs { margin: 0; padding: 32px 0 40px; display: grid; gap: 18px; }
+.bs-head { display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap; padding: 0 36px; }
+.bs-head > div:first-child { flex: 1; min-width: 220px; }
+.bs-kicker { display: block; font-family: var(--mono); font-size: 12.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.bs-head h1 { margin: 0; font-size: 40px; line-height: 1.05; letter-spacing: var(--tight); }
+.bs-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.bs-search { display: flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--pill); padding: 0 16px; height: 44px; color: var(--muted); }
+.bs-search input { border: 0; outline: 0; background: transparent; font: inherit; font-size: 15px; color: var(--text); width: 220px; }
+.bs-btn { font: inherit; font-weight: 700; letter-spacing: var(--tight); border: 1px solid var(--line); background: var(--surface); color: var(--text); border-radius: var(--pill); padding: 0 20px; height: 44px; cursor: pointer; }
+.bs-btn:hover { background: var(--surface-2); }
+.bs-banner { margin: 0 36px; padding: 11px 18px; border-radius: var(--r); background: light-dark(#fdf3d6, #3b3320); color: light-dark(#7a5800, #f0cf7c); font-size: 14px; }
+.bs-banner.warn { background: var(--danger-soft); color: var(--danger); }
+.bs-foot { color: var(--faint); font-size: 13px; text-align: center; padding-top: 10px; }
+.bs .bl-toc { top: 16px; }
+@media (max-width: 720px) {
+  .bs { padding-top: 20px; }
+  .bs-head { padding-left: 16px; padding-right: 16px; }
+  .bs-banner { margin: 0 16px; padding: 10px 14px; }
+  .bs-head h1 { font-size: 32px; }
+  .bs-actions, .bs-search { width: 100%; }
+  .bs-search input { width: 100%; }
+}
+@media print { .bs-head .bs-actions, .bs-banner { display: none !important; } }

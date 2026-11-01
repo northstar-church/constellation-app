@@ -1,0 +1,23 @@
+node_modules
+out
+dist
+preview
+.env
+.dev.vars
+.wrangler
+.cf-token
+.golive-result.json
+.release-key
+.last-published
+*.p8
+preview-staff
+preview-brand
+wrangler.old.jsonc
+wrangler.redirect.jsonc
+.cf-token-old
+.migrate
+
+# Not needed in the GitHub backup
+imports/
+.DS_Store
+*.log

@@ -1,0 +1,108 @@
+{
+  "name": "constellation",
+  "productName": "Constellation",
+  "version": "0.1.22",
+  "description": "Constellation by NorthStar Creative: team calendar, posting calendar, creative studio, video review and vendor rolodex",
+  "main": "./out/main/index.js",
+  "private": true,
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "preview:web": "vite build --config vite.preview.config.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p worker/tsconfig.json",
+    "dist:mac": "electron-vite build && electron-builder --mac --publish never",
+    "build:web": "vite build --config vite.web.config.ts",
+    "worker:dev": "npm run build:web && wrangler dev",
+    "db:migrate:local": "wrangler d1 migrations apply constellation --local",
+    "db:migrate": "wrangler d1 migrations apply constellation --remote",
+    "deploy": "npm run build:web && wrangler deploy",
+    "release:mac": "node scripts/release.mjs"
+  },
+  "build": {
+    "appId": "org.northstarchurch.constellation",
+    "productName": "Constellation",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "out/**/*"
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "icon": "build/icon.png",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "notarize": true,
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "universal"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "universal"
+          ]
+        }
+      ]
+    },
+    "dmg": {
+      "title": "Constellation",
+      "window": {
+        "width": 540,
+        "height": 420
+      },
+      "contents": [
+        {
+          "x": 130,
+          "y": 170,
+          "type": "file"
+        },
+        {
+          "x": 410,
+          "y": 170,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 270,
+          "y": 310,
+          "type": "file",
+          "path": "build/How to Install.txt"
+        }
+      ]
+    },
+    "publish": [
+      {
+        "provider": "generic",
+        "url": "https://constellation.northstar-creative.workers.dev/updates"
+      }
+    ]
+  },
+  "dependencies": {
+    "date-fns": "^4.4.0",
+    "electron-updater": "^6.8.11",
+    "jose": "^6.2.13",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "simple-icons": "^15.22.0",
+    "ws": "^8.22.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261025.1",
+    "@types/node": "^26.6.5",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "@types/ws": "^8.18.2",
+    "@vitejs/plugin-react": "^6.1.2",
+    "electron": "^45.0.0",
+    "electron-builder": "^26.18.0",
+    "electron-vite": "^6.0.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.5",
+    "vite-plugin-singlefile": "^2.3.4",
+    "wrangler": "^4.152.0"
+  }
+}

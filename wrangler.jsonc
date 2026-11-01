@@ -1,0 +1,51 @@
+{
+  // Constellation backend: serves the app, the API, live updates and calendar feeds.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "constellation",
+  "main": "worker/src/index.ts",
+  // The church domain; the workers.dev address is off so there's only one way in (through sign-in)
+  "routes": [{ "pattern": "constellation.northstarchurch.org", "custom_domain": true }],
+  "workers_dev": false,
+  "preview_urls": false,
+  // Keep recent server logs (Workers → constellation → Logs), so problems can be looked into afterwards
+  "observability": { "enabled": true },
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "out/web",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*", "/feed/*", "/track/*", "/hooks/*", "/updates/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "constellation",
+      // Replace with the id printed by: npx wrangler d1 create constellation
+      "database_id": "f4cb747f-23d7-4129-86fd-d85abb9d7c15",
+      "migrations_dir": "migrations"
+    }
+  ],
+  // Proof files and finished artwork. Create once with: npx wrangler r2 bucket create constellation-files
+  "r2_buckets": [{ "binding": "FILES", "bucket_name": "constellation-files" }],
+  "durable_objects": {
+    "bindings": [{ "name": "LIVE", "class_name": "LiveHub" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["LiveHub"] }],
+  // Every 5 minutes: remind whoever is posting when a scheduled social post's time comes.
+  "triggers": { "crons": ["*/5 * * * *"] },
+  "vars": {
+    // Who gets Slack DMs when something goes wrong (and the Monday check-in)
+    "ALERT_EMAIL": "jeremy.thompson@northstarchurch.org",
+    // From Zero Trust > Settings > Custom pages: <team>.cloudflareaccess.com
+    "ACCESS_TEAM_DOMAIN": "broken-river-4463.cloudflareaccess.com",
+    // From the Access application's Overview tab: "Application Audience (AUD) Tag"
+    "ACCESS_AUD": "de345bb85598613d5795444686dbf7d518b44ade7d08398361518a92af1e9cee",
+    "PUBLIC_URL": "https://constellation.northstarchurch.org",
+    // Cloudflare account that owns Stream (Video Review playback)
+    "CF_ACCOUNT_ID": "7d1eaa1f778cc8ff4f726795600228a6",
+    // The creative team: names in the Assigned list, emails for notifications, pm = hears about every comment
+    // "Media Request NEW" typeform (C0002LdL): which question feeds which field
+    "TYPEFORM_FIELDS": "{\"requesterName\":\"643d4da1-ff71-4bdc-859f-dfa1fefcfd67\",\"requesterEmail\":\"4086a8b3-a65d-468d-b2dd-181fa371abda\",\"title\":\"1b538231-5716-47dc-af73-d6c38340943b\",\"dueDate\":\"601e893e-9948-4dcc-b73c-bdbdbb77dbc6\",\"eventDate\":\"d9facb0b-2a0e-428b-8b5b-6ac471054abe\",\"details\":\"6a8fcdb9-0dfa-49fe-9893-6572e23bc91c\",\"ministry\":\"db13c77c-a8df-4b43-9dec-3363a03ba4d7\",\"deliverables\":\"0736d7a1-1f20-4ed7-b2b8-abaeb35d35ed\",\"assetsLink\":\"9a913878-4f97-4ec3-b203-6c037af03f81\",\"attachments\":\"3a6b7945-8550-4518-a654-f170c08b6c1c\"}",
+    "TEAM_MEMBERS": "[{\"name\":\"Jeremy Thompson\",\"email\":\"jeremy.thompson@northstarchurch.org\"},{\"name\":\"Sarah Vanderheyden\",\"email\":\"sarah.vanderheyden@northstarchurch.org\",\"socialLead\":true},{\"name\":\"C.A. Phillips\",\"email\":\"ca.phillips@northstarchurch.org\",\"pm\":true,\"assignable\":false},{\"name\":\"Kendrick Banks\",\"email\":\"kendrick.banks@northstarchurch.org\"},{\"name\":\"Stephanie Ford\",\"email\":\"stephanie.ford@northstarchurch.org\",\"assignable\":false},{\"name\":\"Ryan Hoffer\",\"email\":\"ryan.hoffer@northstarchurch.org\"},{\"name\":\"Will Compton\",\"email\":\"will.compton@northstarchurch.org\",\"assignable\":false},{\"name\":\"Bryan McIntyre\",\"email\":\"bryan.mcintyre@northstarchurch.org\",\"assignable\":false},{\"name\":\"Anne Linch\",\"email\":\"anne.linch@northstarchurch.org\",\"assignable\":false}]"
+  }
+}

@@ -1,0 +1,14 @@
+Installing Constellation (NorthStar Creative)
+
+1. Drag Constellation onto the Applications folder in this window.
+2. Open Constellation from Applications (or Launchpad).
+   If your Mac asks "Are you sure you want to open it?", click Open.
+3. Sign in with your church email (first.last@northstarchurch.org).
+   Constellation sends you a 6-digit code as a Slack message. Type it in.
+   You'll stay signed in for a year as long as you keep using it.
+4. Eject this "Constellation" disk (it's in Finder's sidebar). You're done.
+
+Updates install on their own, so this is a one-time setup.
+
+Code not showing up? Make sure you're signed into Slack with the same church email.
+"Isn't on the team" message? Ask Jeremy or Stephanie to add you.
